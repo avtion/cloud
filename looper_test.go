@@ -1,18 +1,17 @@
 package main
 
 import (
-	"log"
-	_ "time/tzdata"
+	"testing"
 
 	"go.uber.org/zap/zapcore"
 )
 
-func main() {
+func TestPushWeather(t *testing.T) {
 	setupLogging(zapcore.InfoLevel)
 	cfg, err := loadWorkDirConfig()
 	if err != nil {
-		log.Printf("failed to load config, err: %v", err)
-		return
+		t.Fatal(err)
 	}
-	newLooper(cfg).start()
+	l := newLooper(cfg)
+	l.startPushWeather()
 }
